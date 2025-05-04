@@ -35,11 +35,19 @@ public class RecursiveLister extends JFrame {
         // Quit button action
         quitButton.addActionListener(e -> System.exit(0));
 
-        // Start button action (hook up recursive logic later)
+        // Start button action (logic hooked up)
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // To be implemented next
+                JFileChooser chooser = new JFileChooser();
+                chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                int result = chooser.showOpenDialog(RecursiveLister.this);
+
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    File selectedDirectory = chooser.getSelectedFile();
+                    textArea.setText(""); // Clear previous output
+                    listFilesRecursively(selectedDirectory);
+                }
             }
         });
 
@@ -48,6 +56,20 @@ public class RecursiveLister extends JFrame {
         pack();
         setLocationRelativeTo(null); // Center the window
         setVisible(true);
+
+        // listfilesRecursively method
+        private void listFilesRecursively(File directory) {
+            File[] files = directory.listFiles();
+
+            if (files == null) return;
+
+            for (File file : files) {
+                textArea.append(file.getAbsolutePath() + "\n");
+                if (file.isDirectory()) {
+                    listFilesRecursively(file); // recurse into subdirectory
+                }
+            }
+        }
     }
 
     public static void main(String[] args) {
