@@ -57,22 +57,25 @@ public class RecursiveLister extends JFrame {
         setLocationRelativeTo(null); // Center the window
         setVisible(true);
 
-        // listfilesRecursively method
-        private void listFilesRecursively(File directory) {
-            File[] files = directory.listFiles();
 
-            if (files == null) return;
-
-            for (File file : files) {
-                textArea.append(file.getAbsolutePath() + "\n");
-                if (file.isDirectory()) {
-                    listFilesRecursively(file); // recurse into subdirectory
-                }
-            }
-        }
     }
+
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(RecursiveLister::new);
     }
+    // listfilesRecursively method
+    private void listFilesRecursively(File directory) {
+        File[] files = directory.listFiles();
+
+        if (files == null) return;
+
+        for (File file : files) {
+            textArea.append(file.getAbsolutePath() + "\n");
+            if (file.isDirectory()) {
+                listFilesRecursively(file); // recurse into subdirectory
+            }
+        }
+    }
+
 }
